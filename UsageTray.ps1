@@ -109,7 +109,7 @@ function New-PercentIcon {
     $g.FillEllipse($brush, 0, 0, 31, 31)
     $brush.Dispose()
 
-    $fontSize = if ($text.Length -ge 3) { 13 } elseif ($text.Length -eq 2) { 17 } else { 19 }
+    $fontSize = if ($text.Length -ge 3) { 15 } elseif ($text.Length -eq 2) { 20 } else { 22 }
     $font = New-Object System.Drawing.Font("Segoe UI", $fontSize, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
     $fmt = New-Object System.Drawing.StringFormat
     $fmt.Alignment = [System.Drawing.StringAlignment]::Center
@@ -139,16 +139,16 @@ function Update-Tray {
     }
     $script:lastIconHandle = $r.Handle
 
-    # 工具提示(上限 63 字元)
+    # 工具提示(多行,上限 127 字元)
     if ($isError) {
         $tip = "Claude usage 讀取失敗"
     } else {
-        $tip = "5h {0}%(重置 {1:HH:mm}) 週 {2}%" -f $s.FiveHour, $s.FiveHourReset, $s.SevenDay
+        $tip = "5h {0}%(重置 {1:HH:mm})`n週  {2}%" -f $s.FiveHour, $s.FiveHourReset, $s.SevenDay
         if ($null -ne $s.CostToday) {
-            $tip += (" 今日 `${0:N1}" -f $s.CostToday)
+            $tip += ("`n今日 `${0:N1}" -f $s.CostToday)
         }
     }
-    if ($tip.Length -gt 63) { $tip = $tip.Substring(0, 63) }
+    if ($tip.Length -gt 127) { $tip = $tip.Substring(0, 127) }
     $notify.Text = $tip
 
     # 超過門檻時跳通知(80% / 95% 各一次,降回 80 以下後重置)
