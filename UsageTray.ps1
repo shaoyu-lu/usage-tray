@@ -99,9 +99,9 @@ function New-PercentIcon {
         $bg = [System.Drawing.Color]::Gray
         $text = "!"
     } else {
-        if     ($pct -ge 80) { $bg = [System.Drawing.Color]::Crimson }
-        elseif ($pct -ge 50) { $bg = [System.Drawing.Color]::DarkOrange }
-        else                 { $bg = [System.Drawing.Color]::ForestGreen }
+        if     ($pct -ge 80) { $bg = [System.Drawing.ColorTranslator]::FromHtml("#CD5353") }
+        elseif ($pct -ge 50) { $bg = [System.Drawing.ColorTranslator]::FromHtml("#E69554") }
+        else                 { $bg = [System.Drawing.ColorTranslator]::FromHtml("#84B585") }
         $text = [string]$pct
     }
 
@@ -109,7 +109,7 @@ function New-PercentIcon {
     $g.FillEllipse($brush, 0, 0, 31, 31)
     $brush.Dispose()
 
-    $fontSize = if ($text.Length -ge 3) { 11 } elseif ($text.Length -eq 2) { 14 } else { 16 }
+    $fontSize = if ($text.Length -ge 3) { 13 } elseif ($text.Length -eq 2) { 17 } else { 19 }
     $font = New-Object System.Drawing.Font("Segoe UI", $fontSize, [System.Drawing.FontStyle]::Bold, [System.Drawing.GraphicsUnit]::Pixel)
     $fmt = New-Object System.Drawing.StringFormat
     $fmt.Alignment = [System.Drawing.StringAlignment]::Center
